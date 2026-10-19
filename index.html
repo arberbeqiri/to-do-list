@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify — Organizo jetën tënde</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem("theme"); } catch (e) {}
+            var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.dataset.theme = dark ? "dark" : "light";
+        })();
+    </script>
+</head>
+<body>
+    <header class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-mark">✓</span>
+                Taskify
+            </a>
+            <nav class="nav-links" id="nav-links">
+                <a href="#features">Veçoritë</a>
+                <a href="#stats">Progresi</a>
+                <a href="#testimonials">Përshtypjet</a>
+                <a href="#download">Fillo</a>
+            </nav>
+            <div class="nav-actions">
+                <button type="button" class="nav-login" id="nav-login" data-auth="signin">Hyr</button>
+                <span class="nav-user" id="nav-user" hidden></span>
+                <button type="button" class="btn btn-primary btn-sm" id="nav-cta" data-open-app>Regjistrohu</button>
+            </div>
+            <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Ndrysho temën">🌙</button>
+            <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Hap menynë" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Qëndro i organizuar,<br><span class="accent">qëndro kreativ</span></h1>
+                <p class="hero-sub">
+                    Bashkohu me mijëra njerëz që ruajnë idetë, organizojnë jetën
+                    dhe bëjnë diçka kreative çdo ditë.
+                </p>
+                <div class="hero-actions">
+                    <button type="button" class="btn btn-primary btn-lg" data-open-app>Fillo falas</button>
+                    <a href="#features" class="btn btn-ghost btn-lg">Mëso më shumë</a>
+                </div>
+
+                <div class="mockup" data-open-app title="Hap aplikacionin">
+                    <div class="mockup-bar">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="mockup-body">
+                        <aside class="mockup-side">
+                            <div class="side-item active">☀ Sot <b>4</b></div>
+                            <div class="side-item">📅 Nesër <b>2</b></div>
+                            <div class="side-item">🗓 7 ditët e ardhshme</div>
+                            <div class="side-item">📥 Inbox <b>6</b></div>
+                            <div class="side-label">Listat</div>
+                            <div class="side-item"><i class="dot dot-blue"></i> Puna</div>
+                            <div class="side-item"><i class="dot dot-green"></i> Shtëpia</div>
+                            <div class="side-item"><i class="dot dot-orange"></i> Studimet</div>
+                        </aside>
+                        <div class="mockup-main">
+                            <div class="mockup-head">Sot</div>
+                            <div class="mock-row"><i class="box"></i> Takim me ekipin <em>10:00</em></div>
+                            <div class="mock-row"><i class="box"></i> Përfundo prezantimin <em class="red">Sot</em></div>
+                            <div class="mock-row"><i class="box"></i> Stërvitje në palestër <em>18:30</em></div>
+                            <div class="mock-row done"><i class="box checked"></i> Lexo 20 faqe</div>
+                            <div class="mock-row done"><i class="box checked"></i> Pi 8 gota ujë</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <p class="eyebrow">Veçoritë</p>
+                <h2 class="section-title">Gjithçka që të duhet, në një vend</h2>
+
+                <div class="feature">
+                    <div class="feature-text">
+                        <span class="feature-icon">📝</span>
+                        <h3>Ruaj çdo ide</h3>
+                        <p>Shkruaj shpejt çdo gjë që të vjen në mendje. Shto data, kujtesa dhe etiketa që asgjë të mos të harrohet.</p>
+                        <button type="button" class="feature-link" data-open-app="inbox">Provoje →</button>
+                    </div>
+                    <div class="feature-visual visual-blue">
+                        <div class="card-mini">
+                            <div class="mini-line w80"></div>
+                            <div class="mini-line w60"></div>
+                            <div class="mini-chips"><span>#puna</span><span>⏰ 09:00</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature reverse">
+                    <div class="feature-text">
+                        <span class="feature-icon">📅</span>
+                        <h3>Planifiko me kalendar</h3>
+                        <p>Shiko ditën, javën ose muajin me një shikim. Zvarrit dhe lësho për të riorganizuar planet në sekonda.</p>
+                        <button type="button" class="feature-link" data-open-app="calendar">Hap kalendarin →</button>
+                    </div>
+                    <div class="feature-visual visual-green">
+                        <div class="calendar-mini" id="calendar-mini"></div>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-text">
+                        <span class="feature-icon">🍅</span>
+                        <h3>Fokusohu me Pomodoro</h3>
+                        <p>Puno në intervale 25-minutëshe dhe bëj pushime të shkurtra. Provoje këtu, kronometri funksionon!</p>
+                        <button type="button" class="feature-link" data-open-app="focus">Hap modalitetin e fokusit →</button>
+                    </div>
+                    <div class="feature-visual visual-orange">
+                        <div class="pomodoro">
+                            <div class="pomo-time" id="pomo-time">25:00</div>
+                            <div class="pomo-actions">
+                                <button type="button" class="pomo-btn" id="pomo-start">Fillo</button>
+                                <button type="button" class="pomo-btn pomo-btn-light" id="pomo-reset">Rivendos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature reverse">
+                    <div class="feature-text">
+                        <span class="feature-icon">🔥</span>
+                        <h3>Ndërto zakone të mira</h3>
+                        <p>Ndiq zakonet e përditshme dhe shiko vargun tënd të rritet. Ndryshimet e vogla sjellin rezultate të mëdha.</p>
+                        <button type="button" class="feature-link" data-open-app="habits">Shiko zakonet →</button>
+                    </div>
+                    <div class="feature-visual visual-purple">
+                        <div class="habits" id="habits-mini"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats" id="stats">
+            <div class="container">
+                <p class="eyebrow">Progresi yt</p>
+                <h2 class="section-title stats-title">Çdo hap i vogël numërohet</h2>
+                <div class="stats-grid">
+                    <div class="stat"><strong id="stat-done" data-count="0">0</strong><span>Detyra të përfunduara</span></div>
+                    <div class="stat"><strong id="stat-focus" data-count="0">0</strong><span>Minuta fokusi</span></div>
+                    <div class="stat"><strong id="stat-streak" data-count="0">0</strong><span>Ditë rresht 🔥</span></div>
+                    <div class="stat"><strong id="stat-habits" data-count="0">0</strong><span>Zakone të mbajtura</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials" id="testimonials">
+            <div class="container">
+                <p class="eyebrow">Përshtypjet</p>
+                <h2 class="section-title">Çfarë thonë përdoruesit</h2>
+                <div class="testimonial-grid">
+                    <figure class="testimonial">
+                        <blockquote>“Më në fund kam një vend ku i mbaj të gjitha. Dita ime është shumë më e qetë.”</blockquote>
+                        <figcaption><span class="avatar">E</span> Erion, zhvillues</figcaption>
+                    </figure>
+                    <figure class="testimonial">
+                        <blockquote>“Kronometri Pomodoro më ndihmoi të fokusohem gjatë provimeve. E rekomandoj!”</blockquote>
+                        <figcaption><span class="avatar">A</span> Ana, studente</figcaption>
+                    </figure>
+                    <figure class="testimonial">
+                        <blockquote>“I thjeshtë, i bukur dhe i shpejtë. E përdor çdo mëngjes me kafen e parë.”</blockquote>
+                        <figcaption><span class="avatar">D</span> Dritoni, dizajner</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta" id="download">
+            <div class="container cta-inner">
+                <h2>Fillo të organizosh jetën sot</h2>
+                <p>Falas. Pa llogari. Të dhënat ruhen vetëm në shfletuesin tënd.</p>
+                <button type="button" class="btn btn-white btn-lg" data-open-app>Fillo falas</button>
+                <div class="platforms">
+                    <span>💻 Kompjuter</span><span>📱 Telefon</span><span>🌙 Modaliteti i natës</span><span>🔒 Privat</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="#" class="logo">
+                    <span class="logo-mark">✓</span>
+                    Taskify
+                </a>
+                <p class="footer-note">Organizo jetën, një hap në një kohë.</p>
+            </div>
+            <div>
+                <h4>Produkti</h4>
+                <a href="#features">Veçoritë</a>
+                <a href="#" data-open-app>Hap aplikacionin</a>
+                <a href="#" data-info="cmimet">Çmimet</a>
+            </div>
+            <div>
+                <h4>Burime</h4>
+                <a href="#" data-info="ndihme">Ndihmë</a>
+                <a href="#" data-info="udhezues">Udhëzues</a>
+                <a href="#" data-info="keshilla">Këshilla</a>
+            </div>
+            <div>
+                <h4>Kompania</h4>
+                <a href="#" data-info="rreth">Rreth nesh</a>
+                <a href="#" data-info="privatesia">Privatësia</a>
+                <a href="#" data-action="export">Eksporto të dhënat</a>
+            </div>
+        </div>
+        <div class="container footer-bottom">© <span id="year"></span> Taskify. Të gjitha të drejtat e rezervuara.</div>
+    </footer>
+
+    <div class="modal" id="app-modal" hidden>
+        <div class="modal-backdrop" data-close-app></div>
+        <div class="app" id="app" role="dialog" aria-modal="true" aria-labelledby="app-title">
+            <aside class="app-sidebar" id="app-sidebar">
+                <div class="app-brand"><span class="logo-mark">✓</span> Taskify</div>
+
+                <div class="profile">
+                    <span class="avatar" id="profile-avatar">?</span>
+                    <div class="profile-info">
+                        <div class="profile-name" id="profile-name"></div>
+                        <span class="profile-plan" id="profile-plan"></span>
+                    </div>
+                </div>
+
+                <div class="level-card" title="Fito XP: detyrë +10, seancë fokusi +20, zakon +5">
+                    <div class="level-top">
+                        <span id="level-name">Niveli 1</span>
+                        <span class="streak" id="streak" title="Ditë rresht me të paktën një detyrë të kryer">🔥 0</span>
+                    </div>
+                    <div class="level-bar"><div class="level-fill" id="level-fill"></div></div>
+                    <div class="level-xp" id="level-xp">0 / 100 XP</div>
+                </div>
+
+                <nav id="smart-nav"></nav>
+
+                <div class="list-heading"><span>Mjetet</span></div>
+                <nav id="tool-nav"></nav>
+
+                <div class="list-heading">
+                    <span>Listat</span>
+                    <button type="button" class="icon-btn small" id="add-list" aria-label="Shto listë" title="Shto listë">+</button>
+                </div>
+                <form class="new-list" id="new-list-form" hidden>
+                    <input type="text" id="new-list-input" placeholder="Emri i listës së re" maxlength="40" autocomplete="off">
+                </form>
+                <nav id="list-nav"></nav>
+
+                <div class="list-heading" id="tag-heading"><span>Etiketat</span></div>
+                <nav id="tag-nav"></nav>
+
+                <div class="sidebar-bottom">
+                    <button type="button" class="side-btn" id="app-theme"></button>
+                    <button type="button" class="side-btn" id="sound-toggle"></button>
+                    <button type="button" class="side-btn" data-info="privatesia">💾 Kopje rezervë</button>
+                    <button type="button" class="side-btn" data-action="plans">⭐ Ndrysho planin</button>
+                    <button type="button" class="side-btn" data-action="logout">🚪 Dil</button>
+                    <div class="accent-picker" id="accent-picker" aria-label="Ngjyra kryesore"></div>
+                </div>
+            </aside>
+
+            <section class="app-main" id="app-main">
+                <header class="app-header">
+                    <button type="button" class="icon-btn app-menu" id="app-menu" aria-label="Listat">☰</button>
+                    <div class="title-wrap">
+                        <h2 id="app-title">Sot</h2>
+                        <p class="app-subtitle" id="app-subtitle"></p>
+                    </div>
+                    <div class="day-ring" id="day-ring" title="Progresi i sotëm" hidden>
+                        <svg viewBox="0 0 36 36" aria-hidden="true">
+                            <circle class="ring-bg" cx="18" cy="18" r="15.915"></circle>
+                            <circle class="ring-fill" id="day-ring-fill" cx="18" cy="18" r="15.915"></circle>
+                        </svg>
+                        <span id="day-ring-text">0/0</span>
+                    </div>
+                    <input type="search" id="search" class="search" placeholder="🔍  Kërko" autocomplete="off" aria-label="Kërko">
+                    <button type="button" class="icon-btn" data-close-app aria-label="Mbyll" title="Mbyll">✕</button>
+                </header>
+
+                <div class="view" id="tasks-view">
+                    <form class="quick-add" id="quick-add" autocomplete="off">
+                        <input type="text" id="quick-input" maxlength="200" aria-label="Detyrë e re">
+                        <input type="date" id="quick-date" title="Data">
+                        <input type="time" id="quick-time" title="Ora e kujtesës">
+                        <select id="quick-priority" title="Prioriteti">
+                            <option value="0">Pa prioritet</option>
+                            <option value="1">E ulët</option>
+                            <option value="2">Mesatare</option>
+                            <option value="3">E lartë</option>
+                        </select>
+                    </form>
+                    <p class="quick-hint">✨ Provo të shkruash: <b>nesër</b>, <b>14:30</b>, <b>!3</b> ose <b>#etiketë</b></p>
+                    <div class="task-list" id="task-list"></div>
+                </div>
+
+                <div class="view" id="calendar-view" hidden>
+                    <div class="cal-toolbar">
+                        <h3 id="cal-month"></h3>
+                        <button type="button" class="cal-btn" id="cal-prev" aria-label="Muaji i kaluar">‹</button>
+                        <button type="button" class="cal-btn" id="cal-today">Sot</button>
+                        <button type="button" class="cal-btn" id="cal-next" aria-label="Muaji tjetër">›</button>
+                    </div>
+                    <div class="cal-grid" id="cal-grid"></div>
+                </div>
+
+                <div class="view focus-view" id="focus-view" hidden>
+                    <div class="mode-tabs">
+                        <button type="button" class="mode-tab" data-mode="focus">🍅 Fokus 25'</button>
+                        <button type="button" class="mode-tab" data-mode="short">☕ Pushim 5'</button>
+                        <button type="button" class="mode-tab" data-mode="long">🌴 Pushim 15'</button>
+                    </div>
+                    <div class="focus-ring">
+                        <svg viewBox="0 0 36 36" aria-hidden="true">
+                            <circle class="ring-bg" cx="18" cy="18" r="15.915"></circle>
+                            <circle class="ring-fill" id="focus-ring-fill" cx="18" cy="18" r="15.915"></circle>
+                        </svg>
+                        <div class="focus-time" id="focus-time">25:00</div>
+                    </div>
+                    <select id="focus-task" class="field focus-task" aria-label="Detyra ku do fokusohesh"></select>
+                    <div class="focus-actions">
+                        <button type="button" class="btn btn-primary btn-lg" id="focus-start">Fillo</button>
+                        <button type="button" class="btn btn-ghost btn-lg" id="focus-reset">Rivendos</button>
+                    </div>
+                    <div class="tomatoes" id="tomatoes"></div>
+                    <div class="focus-stats" id="focus-stats"></div>
+                </div>
+
+                <div class="view habits-view" id="habits-view" hidden>
+                    <form class="habit-form" id="habit-form" autocomplete="off">
+                        <input type="text" id="habit-emoji" class="habit-emoji" value="✨" maxlength="4" aria-label="Emoji">
+                        <input type="text" id="habit-name" class="habit-name" placeholder="Zakon i ri, p.sh. Meditim 10 minuta" maxlength="60" aria-label="Emri i zakonit">
+                        <button type="submit" class="btn btn-primary">Shto</button>
+                    </form>
+                    <div id="habit-list"></div>
+                </div>
+            </section>
+
+            <section class="detail" id="detail">
+                <div class="detail-empty" id="detail-empty">
+                    <div class="big">📝</div>
+                    <p>Kliko mbi një detyrë për të parë detajet</p>
+                </div>
+
+                <div class="detail-body" id="detail-body" hidden>
+                    <div class="detail-top">
+                        <input type="checkbox" class="check" id="d-check" aria-label="Shëno si të përfunduar">
+                        <input type="date" id="d-date" class="field" title="Data">
+                        <input type="time" id="d-time" class="field" title="Ora e kujtesës">
+                        <select id="d-priority" class="field" title="Prioriteti">
+                            <option value="0">Pa prioritet</option>
+                            <option value="1">E ulët</option>
+                            <option value="2">Mesatare</option>
+                            <option value="3">E lartë</option>
+                        </select>
+                        <span class="spacer"></span>
+                        <button type="button" class="icon-btn" id="d-close" aria-label="Mbyll detajet" title="Mbyll">✕</button>
+                    </div>
+
+                    <input type="text" id="d-title" class="d-title" placeholder="Çfarë dëshiron të bësh?" maxlength="200">
+                    <div class="tags-row" id="d-tags"></div>
+                    <textarea id="d-notes" placeholder="Përshkrimi"></textarea>
+
+                    <div class="subtasks">
+                        <div class="sub-heading">Nëndetyrat</div>
+                        <ul id="d-subtasks"></ul>
+                        <form id="d-sub-form" autocomplete="off">
+                            <input type="text" id="d-sub-input" placeholder="+ Shto nëndetyrë" maxlength="200">
+                        </form>
+                    </div>
+
+                    <div class="detail-bottom">
+                        <select id="d-list" class="field" title="Zhvendos në listë"></select>
+                        <div class="detail-actions">
+                            <button type="button" class="ghost-btn" id="d-focus">🍅 Fokusohu</button>
+                            <button type="button" class="danger-btn" id="d-delete">🗑 Fshi</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="info-modal" id="info-modal" hidden>
+        <div class="modal-backdrop" data-close-info></div>
+        <div class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="info-title">
+            <button type="button" class="modal-close" data-close-info aria-label="Mbyll">×</button>
+            <h2 id="info-title"></h2>
+            <div class="info-content" id="info-content"></div>
+        </div>
+    </div>
+
+    <div class="info-modal" id="auth-modal" hidden>
+        <div class="modal-backdrop" data-close-auth></div>
+        <div class="info-dialog auth-dialog" id="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+            <button type="button" class="modal-close" data-close-auth aria-label="Mbyll">×</button>
+
+            <div id="auth-step">
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab" data-auth="signup">Regjistrohu</button>
+                    <button type="button" class="auth-tab" data-auth="signin">Hyr</button>
+                </div>
+
+                <form id="signup-form" novalidate>
+                    <h2 id="auth-title">Krijo llogarinë 👋</h2>
+                    <p class="muted">Hapi 1 nga 2 · pastaj zgjedh planin.</p>
+                    <label class="form-label" for="signup-name">Emri</label>
+                    <input type="text" id="signup-name" class="form-input" autocomplete="name" maxlength="40" placeholder="p.sh. Arbër">
+                    <p class="field-error" id="signup-name-error"></p>
+                    <label class="form-label" for="signup-email">Email</label>
+                    <input type="email" id="signup-email" class="form-input" autocomplete="email" maxlength="80" placeholder="emri@shembull.com">
+                    <p class="field-error" id="signup-email-error"></p>
+                    <label class="form-label" for="signup-password">Fjalëkalimi</label>
+                    <input type="password" id="signup-password" class="form-input" autocomplete="new-password" maxlength="100" placeholder="Të paktën 6 karaktere">
+                    <p class="field-error" id="signup-password-error"></p>
+                    <button type="submit" class="btn btn-primary btn-lg full">Vazhdo →</button>
+                    <p class="auth-switch">Ke llogari? <button type="button" class="link-btn" data-auth="signin">Hyr këtu</button></p>
+                </form>
+
+                <form id="signin-form" novalidate hidden>
+                    <h2>Mirë se u ktheve 👋</h2>
+                    <p class="muted">Hyr me email-in dhe fjalëkalimin tënd.</p>
+                    <label class="form-label" for="signin-email">Email</label>
+                    <input type="email" id="signin-email" class="form-input" autocomplete="email" maxlength="80" placeholder="emri@shembull.com">
+                    <p class="field-error" id="signin-email-error"></p>
+                    <label class="form-label" for="signin-password">Fjalëkalimi</label>
+                    <input type="password" id="signin-password" class="form-input" autocomplete="current-password" maxlength="100">
+                    <p class="field-error" id="signin-password-error"></p>
+                    <button type="submit" class="btn btn-primary btn-lg full">Hyr</button>
+                    <p class="auth-switch">S'ke llogari? <button type="button" class="link-btn" data-auth="signup">Regjistrohu</button></p>
+                </form>
+            </div>
+
+            <div id="plan-step" hidden>
+                <p class="muted step-label" id="plan-step-label">Hapi 2 nga 2</p>
+                <h2 id="plan-title">Zgjidh planin tënd</h2>
+                <p class="muted">Mund ta ndryshosh kurdo nga aplikacioni.</p>
+                <div class="plans" id="plan-cards"></div>
+                <p class="plan-note">ℹ️ Version demo: pagesat nuk janë aktive ende, prandaj planet Pro aktivizohen pa pagesë.</p>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="import-file" accept=".json,application/json" hidden>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
